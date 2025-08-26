@@ -47,34 +47,28 @@ La aplicación incluye 5 usuarios precargados que se muestran en la pantalla de 
    - Email: maria.silva@email.com
    - Usuario: maria_silva
    - **Contraseña: maria123**
-   - Teléfono: +56912345678
 
 2. **Carlos Méndez**
 
    - Email: carlos.mendez@email.com
    - Usuario: carlos_mendez
    - **Contraseña: carlos456**
-   - Teléfono: +56923456789
 
 3. **Ana Rodríguez**
 
    - Email: ana.rodriguez@email.com
    - Usuario: ana_rodriguez
    - **Contraseña: ana789**
-   - Teléfono: +56934567890
-
 4. **José Torres**
 
    - Email: jose.torres@email.com
    - Usuario: jose_torres
    - **Contraseña: jose321**
-   - Teléfono: +56945678901
 
 5. **Lucía Ramírez**
    - Email: lucia.ramirez@email.com
    - Usuario: lucia_ramirez
    - **Contraseña: lucia654**
-   - Teléfono: +56956789012
 
 ## **Cómo Usar la Aplicación**
 
