@@ -152,7 +152,6 @@ Esta es una implementación **BÁSICA** que cumple exactamente con los requerimi
 - ✅ Material Design y Jetpack Compose
 - ✅ Código simple y evaluable
 
-**Sin funcionalidades extras, sin complicaciones, solo lo esencial solicitado.**
 
 ---
 
