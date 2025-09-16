@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.exp1_s2_gustavo_renjifo.ui.screens.ForgotPasswordScreen
 import com.example.exp1_s2_gustavo_renjifo.ui.screens.LoginScreen
+import com.example.exp1_s2_gustavo_renjifo.ui.screens.SimpleLoginScreen
 import com.example.exp1_s2_gustavo_renjifo.ui.screens.RegisterScreen
 import com.example.exp1_s2_gustavo_renjifo.ui.screens.SuccessScreen
 
@@ -16,7 +17,7 @@ fun AppNavigation(navController: NavHostController) {
         startDestination = Screen.Login.route
     ) {
         composable(Screen.Login.route) {
-            LoginScreen(
+            SimpleLoginScreen(
                 onNavigateToRegister = {
                     navController.navigate(Screen.Register.route)
                 },
