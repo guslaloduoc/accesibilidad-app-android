@@ -1,5 +1,7 @@
 package com.example.exp1_s2_gustavo_renjifo.ui.screens
 
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -10,13 +12,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.exp1_s2_gustavo_renjifo.data.User
 import com.example.exp1_s2_gustavo_renjifo.data.UserRepository
-import com.example.exp1_s2_gustavo_renjifo.ui.theme.Exp1_S2_gustavo_renjifoTheme
+import com.example.exp1_s2_gustavo_renjifo.ui.components.ScreenWithAccessibilityBar
+import com.example.exp1_s2_gustavo_renjifo.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,32 +37,75 @@ fun RegisterScreen(
     var checkbox2 by remember { mutableStateOf(false) }
     var successMessage by remember { mutableStateOf("") }
     
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        TopAppBar(
-            title = { Text("Registro") },
-            navigationIcon = {
-                IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Atrás")
-                }
-            }
+    // Animación de entrada
+    val scaleAnimation = remember { Animatable(0.9f) }
+
+    LaunchedEffect(Unit) {
+        scaleAnimation.animateTo(
+            targetValue = 1f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            )
         )
-        
+    }
+
+    val gradientBrush = if (AppPreferences.isDarkTheme) {
+        Brush.verticalGradient(
+            colors = listOf(
+                GradientGreenDark1,
+                GradientGreenDark2,
+                GradientGreenDark3
+            )
+        )
+    } else {
+        Brush.verticalGradient(
+            colors = listOf(
+                GradientGreen1,
+                GradientGreen2,
+                GradientGreen3
+            )
+        )
+    }
+
+    ScreenWithAccessibilityBar {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(brush = gradientBrush)
+                .verticalScroll(rememberScrollState())
+                .scale(scaleAnimation.value)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onNavigateBack) {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Atrás",
+                        tint = if (AppPreferences.isDarkTheme) Color.White else Color.Black
+                    )
+                }
+                Text(
+                    text = "Registro",
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = if (AppPreferences.isDarkTheme) Color.White else Color.Black,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
             
             Text(
                 text = "Crear Cuenta",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold
-                )
+                ),
+                color = if (AppPreferences.isDarkTheme) Color.White else Color.Black
             )
             
             // Input fields
@@ -84,7 +133,8 @@ fun RegisterScreen(
             // Radio buttons
             Text(
                 text = "Tipo de asistencia:",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = if (AppPreferences.isDarkTheme) Color.White else Color.Black
             )
             
             val radioOptions = listOf(
@@ -110,7 +160,8 @@ fun RegisterScreen(
                     )
                     Text(
                         text = label,
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier.padding(start = 8.dp),
+                        color = if (AppPreferences.isDarkTheme) Color.White else Color.Black
                     )
                 }
             }
@@ -125,7 +176,8 @@ fun RegisterScreen(
                 )
                 Text(
                     text = "Acepto términos y condiciones",
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(start = 8.dp),
+                    color = if (AppPreferences.isDarkTheme) Color.White else Color.Black
                 )
             }
             
@@ -138,7 +190,8 @@ fun RegisterScreen(
                 )
                 Text(
                     text = "Recibir notificaciones",
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(start = 8.dp),
+                    color = if (AppPreferences.isDarkTheme) Color.White else Color.Black
                 )
             }
             

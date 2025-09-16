@@ -1,5 +1,6 @@
 package com.example.exp1_s2_gustavo_renjifo.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,13 +11,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.exp1_s2_gustavo_renjifo.data.UserRepository
+import com.example.exp1_s2_gustavo_renjifo.ui.components.ScreenWithAccessibilityBar
+import com.example.exp1_s2_gustavo_renjifo.ui.theme.AppPreferences
 import com.example.exp1_s2_gustavo_renjifo.ui.theme.Exp1_S2_gustavo_renjifoTheme
+import com.example.exp1_s2_gustavo_renjifo.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,49 +31,62 @@ fun SuccessScreen(
 ) {
     val users = UserRepository.getAllUsers()
     
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // TopAppBar con botón de volver
-        TopAppBar(
-            title = { 
-                Text(
-                    "Acceso Exitoso",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) 
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = onNavigateBack
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Volver"
-                    )
-                }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color(0xFF4CAF50),
-                titleContentColor = Color.White,
-                navigationIconContentColor = Color.White
+    val gradientBrush = if (AppPreferences.isDarkTheme) {
+        Brush.verticalGradient(
+            colors = listOf(
+                GradientGreenDark1,
+                GradientGreenDark2,
+                GradientGreenDark3
             )
         )
-        
+    } else {
+        Brush.verticalGradient(
+            colors = listOf(
+                GradientGreen1,
+                GradientGreen2,
+                GradientGreen3
+            )
+        )
+    }
+
+    ScreenWithAccessibilityBar {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(brush = gradientBrush)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onNavigateBack) {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Volver",
+                        tint = if (AppPreferences.isDarkTheme) Color.White else Color.Black
+                    )
+                }
+                Text(
+                    text = "Acceso Exitoso",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = if (AppPreferences.isDarkTheme) Color.White else Color.Black,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
             
             Text(
                 text = "¡ACCESO EXITOSO!",
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold
                 ),
-                color = MaterialTheme.colorScheme.primary,
+                color = if (AppPreferences.isDarkTheme) Color(0xFF81C784) else Color(0xFF2E7D32),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -101,6 +119,7 @@ fun SuccessScreen(
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold
                 ),
+                color = if (AppPreferences.isDarkTheme) Color.White else Color.Black,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             

@@ -1,12 +1,14 @@
 package com.example.exp1_s2_gustavo_renjifo.data
 
+import com.example.exp1_s2_gustavo_renjifo.utils.*
+
 object UserRepository {
     private val users = mutableListOf(
         User(
             id = "1",
             username = "maria_silva",
             email = "maria.silva@email.com",
-            password = "maria123",
+            password = "maria1233",
             fullName = "María Silva González",
             phoneNumber = "+56912345678"
         ),
@@ -44,40 +46,134 @@ object UserRepository {
         )
     )
 
+    // Cache funcional para búsquedas frecuentes
+    private val userCache = FunctionalCache<String, User?>()
+
+    // Funciones básicas usando funcionalidades mejoradas
     fun getAllUsers(): List<User> = users.toList()
 
+    // Función mejorada usando lambdas
     fun findUserByEmailOrUsername(identifier: String): User? {
-        return users.find { 
-            it.email.equals(identifier, ignoreCase = true) || 
-            it.username.equals(identifier, ignoreCase = true) 
+        return userCache.getOrCompute("find_$identifier") {
+            UserFunctionalUtils.findUser(users, UserFunctionalUtils.byEmailOrUsername(identifier))
+                .let { result ->
+                    when (result) {
+                        is Result.Success -> result.data
+                        is Result.Error -> null
+                    }
+                }
         }
     }
 
-    fun authenticateUser(identifier: String, password: String): User? {
-        val user = findUserByEmailOrUsername(identifier)
-        return if (user?.password == password) user else null
+    // Autenticación usando función de orden superior
+    fun authenticateUser(
+        identifier: String,
+        password: String,
+        onSuccess: (User) -> Unit = {},
+        onError: (String) -> Unit = {}
+    ): Result<User> {
+        return UserFunctionalUtils.authenticate(
+            users = users,
+            identifier = identifier,
+            password = password,
+            onSuccess = onSuccess,
+            onError = onError
+        )
     }
 
-    fun addUser(user: User): Boolean {
-        return if (findUserByEmailOrUsername(user.email) == null && 
-                   findUserByEmailOrUsername(user.username) == null) {
-            users.add(user.copy(id = (users.size + 1).toString()))
-            true
-        } else {
-            false
+    // Agregar usuario con validación funcional
+    fun addUser(
+        user: User,
+        validator: (User) -> ValidationResult = { ValidationResult(true) }
+    ): Result<User> {
+        return UserFunctionalUtils.processUser(
+            user = user,
+            validators = listOf(
+                validator,
+                { u -> if (findUserByEmailOrUsername(u.email) == null) ValidationResult(true) else ValidationResult(false, "Email ya existe") },
+                { u -> if (findUserByEmailOrUsername(u.username) == null) ValidationResult(true) else ValidationResult(false, "Username ya existe") }
+            ),
+            processor = { u ->
+                val newUser = u.copy(id = (users.size + 1).toString())
+                users.add(newUser)
+                userCache.invalidate { true } // Limpiar cache
+                Result.Success(newUser)
+            }
+        )
+    }
+
+    // Actualizar contraseña usando función de orden superior
+    fun updateUserPassword(
+        identifier: String,
+        newPassword: String,
+        passwordValidator: (String) -> ValidationResult = Validators.passwordValidator
+    ): Result<User> {
+        val validationResult = passwordValidator(newPassword)
+        if (!validationResult.isValid) {
+            return Result.Error(validationResult.errorMessage ?: "Contraseña inválida")
+        }
+
+        return tryWithResult {
+            val userIndex = users.indexOfFirst {
+                UserFunctionalUtils.byEmailOrUsername(identifier)(it)
+            }
+
+            if (userIndex != -1) {
+                val updatedUser = users[userIndex].copy(password = newPassword)
+                users[userIndex] = updatedUser
+                userCache.invalidate { true } // Limpiar cache
+                updatedUser
+            } else {
+                throw Exception("Usuario no encontrado")
+            }
         }
     }
 
-    fun updateUserPassword(identifier: String, newPassword: String): Boolean {
-        val userIndex = users.indexOfFirst { 
-            it.email.equals(identifier, ignoreCase = true) || 
-            it.username.equals(identifier, ignoreCase = true) 
-        }
-        return if (userIndex != -1) {
-            users[userIndex] = users[userIndex].copy(password = newPassword)
-            true
-        } else {
-            false
-        }
+    // Funciones adicionales usando lambdas
+
+    // Filtrar usuarios por criterio
+    fun filterUsers(predicate: (User) -> Boolean): List<User> =
+        UserFunctionalUtils.filterUsers(users, predicate)
+
+    // Buscar usuarios por dominio de email
+    fun getUsersByEmailDomain(domain: String): List<User> =
+        UserFunctionalUtils.analyzeUsers(users, UserFunctionalUtils.getUsersByDomain(domain))
+
+    // Obtener estadísticas usando lambdas
+    fun getUserStatistics(): Map<String, Any> = mapOf(
+        "totalUsers" to UserFunctionalUtils.analyzeUsers(users, UserFunctionalUtils.countUsers),
+        "emails" to UserFunctionalUtils.analyzeUsers(users, UserFunctionalUtils.getUserEmails),
+        "domains" to users.map { it.email.substringAfter("@") }.distinct()
+    )
+
+    // Buscar usuario con múltiples criterios
+    fun findUserByCriteria(vararg criteria: (User) -> Boolean): User? =
+        users.find { user -> criteria.all { criterion -> criterion(user) } }
+
+    // Función de orden superior para operaciones batch
+    fun <R> performBatchOperation(
+        users: List<User>,
+        operation: (List<User>) -> R,
+        onSuccess: (R) -> Unit = {},
+        onError: (String) -> Unit = {}
+    ): Result<R> {
+        return tryWithResult {
+            operation(users)
+        }.onSuccess(onSuccess).onError(onError)
     }
+
+    // Validar usuario completo usando chain de validaciones
+    fun validateUser(user: User): ValidationResult {
+        val validationChain = ValidationChain<User>()
+            .addRule { u -> Validators.nameValidator(u.fullName) }
+            .addRule { u -> Validators.emailValidator(u.email) }
+            .addRule { u -> Validators.passwordValidator(u.password) }
+            .addRule { u -> Validators.phoneValidator(u.phoneNumber) }
+
+        return validationChain.validate(user)
+    }
+
+    // Transformar usuarios usando función de orden superior
+    fun <R> transformUsers(transformer: (User) -> R): List<R> =
+        UserFunctionalUtils.transformUsers(users, transformer)
 }
