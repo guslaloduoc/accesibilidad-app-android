@@ -8,4 +8,7 @@ sealed class Screen(val route: String) {
     object Home : Screen("home/{userId}") {
         fun createRoute(userId: Int) = "home/$userId"
     }
+    object Escribir : Screen("escribir")
+    object Hablar : Screen("hablar")
+    object BuscarDispositivo : Screen("buscar_dispositivo")
 }

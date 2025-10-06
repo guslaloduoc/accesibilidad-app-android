@@ -31,8 +31,7 @@ import androidx.navigation.navArgument
 import com.example.exp1_s2_gustavo_renjifo.services.AuthRepository
 import com.example.exp1_s2_gustavo_renjifo.services.ServiceLocator
 import com.example.exp1_s2_gustavo_renjifo.ui.components.ScreenWithAccessibilityBar
-import com.example.exp1_s2_gustavo_renjifo.ui.screens.HomeScreen
-import com.example.exp1_s2_gustavo_renjifo.ui.screens.HomeViewModel
+import com.example.exp1_s2_gustavo_renjifo.ui.screens.*
 import com.example.exp1_s2_gustavo_renjifo.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -99,6 +98,39 @@ fun AppNavigation(navController: NavHostController) {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
+                },
+                onNavigateToEscribir = {
+                    navController.navigate(Screen.Escribir.route)
+                },
+                onNavigateToHablar = {
+                    navController.navigate(Screen.Hablar.route)
+                },
+                onNavigateToBuscarDispositivo = {
+                    navController.navigate(Screen.BuscarDispositivo.route)
+                }
+            )
+        }
+
+        composable(Screen.Escribir.route) {
+            EscribirScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(Screen.Hablar.route) {
+            HablarScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(Screen.BuscarDispositivo.route) {
+            BuscarDispositivoScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
                 }
             )
         }
