@@ -126,7 +126,7 @@ fun <T1, T2, R> combineStates(
     state2: State<T2>,
     combiner: (T1, T2) -> R
 ): State<R> {
-    return derivedStateOf { combiner(state1.value, state2.value) }
+    return remember { derivedStateOf { combiner(state1.value, state2.value) } }
 }
 
 @Composable
@@ -136,7 +136,7 @@ fun <T1, T2, T3, R> combineStates(
     state3: State<T3>,
     combiner: (T1, T2, T3) -> R
 ): State<R> {
-    return derivedStateOf { combiner(state1.value, state2.value, state3.value) }
+    return remember { derivedStateOf { combiner(state1.value, state2.value, state3.value) } }
 }
 
 // Estado de formulario con validación

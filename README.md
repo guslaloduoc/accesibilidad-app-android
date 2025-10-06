@@ -1,201 +1,177 @@
-# AccesibilidApp - Aplicación de Accesibilidad Móvil
+# AccesibilidApp - Aplicación Móvil de Accesibilidad
 
-Una aplicación Android básica desarrollada con **Jetpack Compose** y **Material Design 3** para la evaluación inicial del curso de Desarrollo de Aplicaciones Móviles en DuocUC.
+## 📱 Descripción
 
-## Características Principales
+**AccesibilidApp** es una aplicación móvil Android desarrollada en Kotlin con Jetpack Compose, diseñada específicamente para personas con discapacidad sensorial visual. La aplicación facilita la comunicación y mejora la calidad de vida al transformar el dispositivo móvil en una herramienta de integración al mundo real y digital.
 
-### **Interfaz Visual Atractiva**
+## ✨ Funcionalidades Principales
 
-- **Fondo degradado pastel** en pantalla de login (azul → rosa → verde)
-- **Card semi-transparente** con elevación y sombra
-- **Diseño Material Design 3** moderno y limpio
-- **Colores armoniosos** y accesibles
+### 🔐 Autenticación
 
-### **Sistema de Acceso Simplificado**
+- **Login**: Inicio de sesión con email y contraseña
+- **Registro**: Creación de cuenta nueva
+- **Recuperar Contraseña**: Recuperación de cuenta mediante email
 
-- **Login directo** - Sin validación de credenciales
-- **Acceso inmediato** al presionar "INICIAR SESIÓN"
-- **Pantalla de éxito** con mensaje claro
-- **Lista completa** de los 5 usuarios registrados
+### 🎯 Herramientas de Accesibilidad
 
-### **Pantallas Implementadas**
+#### ✍️ Escribir
 
-1. **Login** - Interfaz principal con degradado pastel
-2. **Registro** - Formulario completo con todos los componentes UI
-3. **Recuperar Contraseña** - Formulario simple de recuperación
-4. **Pantalla de Éxito** - Muestra acceso exitoso y lista de usuarios
+- Campo de texto con tamaño de fuente grande
+- Alto contraste para fácil lectura
+- Compatible con lectores de pantalla
+- Guardado de mensajes
 
-## **Componentes UI Implementados**
+#### 🗣️ Hablar
 
-### **Todos los Requerimientos Cumplidos:**
+- **Text-to-Speech (TTS)**: Convierte texto escrito en voz
+- **Speech-to-Text**: Dicta por voz y convierte a texto automáticamente
+- Ideal para personas con discapacidad visual
+- Soporte en español
 
-- **Input fields** - Campos de texto con labels
-- **Buttons** - Botones de acción estilizados
-- **Vínculos** - Enlaces de navegación coloridos
-- **Textos** - Títulos y descripciones
-- **Radio buttons** - Selección única de opciones
-- **Checkboxes** - Casillas de verificación múltiple
-- **Cards** - Contenedores con elevación
-- **Navigation** - Navegación fluida entre pantallas
+#### 📍 Buscar Dispositivo
 
-## 👥 **Usuarios Predefinidos (Array de 5)**
+- **Geolocalización GPS**: Obtiene coordenadas del dispositivo
+- **Alarma Sonora**: Reproduce sonido fuerte para encontrar el teléfono
+- **Vibración**: Activa vibración para localizar el dispositivo cerca
+- Útil para personas con discapacidad visual que extravían su teléfono
 
-La aplicación incluye 5 usuarios precargados que se muestran en la pantalla de éxito:
+### ♿ Características de Accesibilidad
 
-1. **María Silva**
+- **Modo Oscuro/Claro**: Alto contraste automático
+- **Escalado de Fuente**: Aumentar/disminuir tamaño de texto
+- **ContentDescriptions**: Compatibilidad completa con lectores de pantalla
+- **Barra de Accesibilidad Persistente**: Acceso rápido a funciones desde cualquier pantalla
 
-   - Email: maria.silva@email.com
-   - Usuario: maria_silva
-   - **Contraseña: maria123**
+## 🛠️ Tecnologías Utilizadas
 
-2. **Carlos Méndez**
+- **Lenguaje**: Kotlin
+- **Framework**: Android Studio, Jetpack Compose
+- **Base de Datos**: Room (SQLite local)
+- **Arquitectura**: MVVM (Model-View-ViewModel)
+- **Navegación**: Navigation Compose
+- **Inyección de Dependencias**: ServiceLocator (sin Hilt)
+- **Coroutinas**: Para operaciones asíncronas
+- **APIs Android**:
+  - TextToSpeech
+  - SpeechRecognizer
+  - Google Play Services Location
+  - MediaPlayer
+  - Vibrator
 
-   - Email: carlos.mendez@email.com
-   - Usuario: carlos_mendez
-   - **Contraseña: carlos456**
+## 📦 Requisitos
 
-3. **Ana Rodríguez**
+- Android Studio Hedgehog o superior
+- SDK mínimo: API 31 (Android 12)
+- SDK objetivo: API 36
+- Kotlin 1.9+
+- Google Play Services
 
-   - Email: ana.rodriguez@email.com
-   - Usuario: ana_rodriguez
-   - **Contraseña: ana789**
-4. **José Torres**
+## 🚀 Instalación
 
-   - Email: jose.torres@email.com
-   - Usuario: jose_torres
-   - **Contraseña: jose321**
+1. Clonar el repositorio:
 
-5. **Lucía Ramírez**
-   - Email: lucia.ramirez@email.com
-   - Usuario: lucia_ramirez
-   - **Contraseña: lucia654**
-
-## **Cómo Usar la Aplicación**
-
-### **Flujo Principal:**
+```bash
+git clone https://github.com/guslaloduoc/accesibilidad-app-android.git
 
 ```
-Login (con fondo degradado)
-    ↓ [Presionar "INICIAR SESIÓN"]
-Pantalla de Éxito (muestra los 5 usuarios)
+
+2. Abrir el proyecto en Android Studio
+
+3. Sincronizar dependencias Gradle
+
+4. Ejecutar en emulador o dispositivo físico
+
+## 🧪 Testing
+
+El proyecto incluye pruebas completas:
+
+### Tests Unitarios
+
+- `UserDaoTest.kt`: Pruebas de Room con base de datos in-memory
+- `AuthRepositoryTest.kt`: Pruebas de lógica de autenticación
+
+### Tests de Integración (Espresso)
+
+- `LoginFlowTest.kt`: Flujo completo de login → home → agregar mensaje
+
+Ejecutar tests:
+
+```bash
+./gradlew testDebugUnitTest
+./gradlew connectedAndroidTest
 ```
 
-### **Navegación Adicional:**
-
-- **Desde Login:** Ir a Registro o Recuperar Contraseña
-- **Registro:** Llenar formulario y agregar nuevo usuario
-- **Recuperar:** Ingresar email y recibir confirmación
-
-## **Tecnologías Utilizadas**
-
-- **Android Studio** - Framework principal
-- **Kotlin** - Lenguaje de programación
-- **Jetpack Compose** - UI moderna y declarativa
-- **Material Design 3** - Sistema de diseño
-- **Navigation Compose** - Navegación entre pantallas
-- **Gradle Version Catalogs** - Gestión de dependencias
-
-## **Estructura del Proyecto**
+## 📁 Estructura del Proyecto
 
 ```
 app/src/main/java/com/example/exp1_s2_gustavo_renjifo/
 ├── data/
-│   ├── User.kt                 # Modelo de datos
-│   └── UserRepository.kt       # Array de 5 usuarios
-├── navigation/
-│   ├── Screen.kt               # Rutas de navegación
-│   └── AppNavigation.kt        # Configuración de navegación
+│   └── room/
+│       ├── AppDatabase.kt
+│       ├── dao/
+│       │   ├── UserDao.kt
+│       │   └── MessageDao.kt
+│       └── entity/
+│           ├── User.kt
+│           └── Message.kt
+├── services/
+│   ├── AuthRepository.kt
+│   ├── MessageRepository.kt
+│   └── ServiceLocator.kt
 ├── ui/
 │   ├── screens/
-│   │   ├── LoginScreen.kt      # Login con degradado pastel
-│   │   ├── RegisterScreen.kt   # Formulario de registro
-│   │   ├── ForgotPasswordScreen.kt  # Recuperar contraseña
-│   │   └── SuccessScreen.kt    # Pantalla de éxito con usuarios
-│   └── theme/                  # Tema Material 3
-└── MainActivity.kt             # Actividad principal
+│   │   ├── HomeScreen.kt
+│   │   ├── HomeViewModel.kt
+│   │   ├── EscribirScreen.kt
+│   │   ├── HablarScreen.kt
+│   │   └── BuscarDispositivoScreen.kt
+│   ├── components/
+│   │   └── PersistentAccessibilityBar.kt
+│   └── theme/
+│       └── AppPreferences.kt
+├── navigation/
+│   ├── AppNavigation.kt
+│   └── Screen.kt
+├── MainActivity.kt
+└── MyApplication.kt
 ```
 
-## **Requerimientos Cumplidos**
+## 🔒 Permisos Requeridos
 
-### **Técnicos:**
+La aplicación solicita los siguientes permisos:
 
-- Framework Android Studio ✓
-- Material Design + Jetpack Compose ✓
-- 3 Views principales ✓
-- Array de 5 usuarios ✓
-- Navegación funcional ✓
+- `ACCESS_FINE_LOCATION`: Para geolocalización del dispositivo
+- `ACCESS_COARSE_LOCATION`: Para localización aproximada
+- `RECORD_AUDIO`: Para reconocimiento de voz
+- `VIBRATE`: Para vibración del dispositivo
+- `INTERNET`: Para servicios futuros
 
-### **Componentes UI:**
+## 👥 Uso de la Aplicación
 
-- Input fields ✓
-- Buttons ✓
-- Vínculos ✓
-- Textos ✓
-- Radio buttons ✓
-- Checkboxes ✓
+1. **Registro**: Crea una cuenta con email y contraseña
+2. **Login**: Inicia sesión con tus credenciales
+3. **Home**: Accede al menú principal con 3 funciones principales:
+   - **Escribir**: Escribe textos con fuente grande y accesible
+   - **Hablar**: Convierte texto a voz o dicta por voz
+   - **Buscar Dispositivo**: Localiza tu teléfono con GPS, sonido o vibración
+4. **Ajustes de Accesibilidad**: Usa la barra superior para ajustar contraste y tamaño de fuente
 
-### **Características Extra:**
+## 🎨 Características de Accesibilidad Destacadas
 
-- Fondo degradado pastel ✓
-- Interfaz atractiva y moderna ✓
-- Acceso directo simplificado ✓
-- Pantalla de éxito con lista de usuarios ✓
+- Todos los botones tienen `contentDescription` para lectores de pantalla
+- Tamaños de fuente dinámicos ajustables
+- Paleta de colores con alto contraste
+- Navegación simple e intuitiva
+- Texto grande por defecto (mínimo 16sp, escalable)
 
-## **Instalación y Ejecución**
+## 📄 Licencia
 
-1. **Clonar el repositorio:**
+Proyecto académico - DuocUC 2025
 
-   ```bash
-   git clone [URL_DEL_REPOSITORIO]
-   ```
+## 👨‍💻 Autor
 
-2. **Abrir en Android Studio:**
-
-   - File → Open → Seleccionar la carpeta del proyecto
-
-3. **Sincronizar dependencias:**
-
-   - Android Studio sincronizará automáticamente
-
-4. **Ejecutar la aplicación:**
-
-   ```bash
-   ./gradlew assembleDebug
-   # o usar el botón Run en Android Studio
-   ```
-
-5. **Instalar en dispositivo/emulador:**
-   ```bash
-   ./gradlew installDebug
-   ```
-
-## 📸 **Vista Previa**
-
-La aplicación presenta:
-
-- **Login** con hermoso fondo degradado pastel
-- **Formularios** limpios y bien organizados
-- **Navegación** fluida y intuitiva
-- **Lista de usuarios** clara y legible
-- **Diseño responsivo** para diferentes tamaños de pantalla
-
-## **Documentación Adicional**
-
-- `DOCUMENTACION_PROYECTO.md` - Documentación completa del proyecto
+Gustavo Renjifo - Desarrollo de Aplicaciones Móviles
 
 ---
 
-**Desarrollado por:** Gustavo Renjifo  
-**Curso:** Desarrollo de Aplicaciones Móviles - DuocUC  
-**Actividad:** Exp1_S2 - Evaluación Inicial  
-**Año:** 2025
-
----
-
-### **Características Destacadas:**
-
-- **Fondo degradado pastel único**
-- **Interfaz moderna y atractiva**
-- **Acceso directo simplificado**
-- **Totalmente funcional y responsive**
-- **Cumple 100% los requerimientos**
+**Desarrollado con ❤️ para mejorar la accesibilidad digital**
